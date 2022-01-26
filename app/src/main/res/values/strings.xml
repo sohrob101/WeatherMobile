@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WeatherMobile</string>
+    <string name="Weather_Mobile">Weather Mobile</string>
+    <string name="St_Paul_mn">ST PAUL MN</string>
+    <string name="feels_like">Feels Like 78°</string>
+    <string name="current_temp">72°</string>
+    <string name="info">Low 65° \nHigh High 80° \nHumidity 100 \nPressure 1023 hPa</string>
+</resources>
