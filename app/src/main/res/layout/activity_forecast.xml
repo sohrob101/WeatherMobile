@@ -3,46 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ForecastActivity">
-
-   <TextView
-       android:id="@+id/date"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:paddingHorizontal="12dp"
-       android:gravity="start|center_vertical"
-
-       />
-
-   <TextView
-       android:id="@+id/time"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-
-       tools:ignore="MissingConstraints" />
-
-   <TextView
-       android:id="@+id/time2"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-
-       />
 
 
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/recyclerV"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-/>
+       android:layout_height="wrap_content"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="1.0"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintVertical_bias="0.0" />
 
    <ImageView
-       android:id="@+id/sunset"
-       android:layout_width="50dp"
-       android:layout_height="50dp"
-       android:src="@drawable/sun"
-       tools:ignore="MissingConstraints" />
+       android:id="@+id/imageView5"
+       android:layout_width="55dp"
+       android:layout_height="53dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent" />
 
+   <TextView
+       android:id="@+id/date"
+       android:layout_width="66dp"
+       android:layout_height="39dp"
+       android:layout_marginTop="16dp"
+       android:text="@string/date"
+       app:layout_constraintStart_toEndOf="@+id/imageView5"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <TextView
+       android:id="@+id/temp"
+       android:layout_width="174dp"
+       android:layout_height="40dp"
+       android:layout_marginStart="64dp"
+       android:layout_marginTop="16dp"
+       android:text=" "
+       app:layout_constraintStart_toEndOf="@+id/imageView5"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <TextView
+       android:id="@+id/sunrise"
+       android:layout_width="102dp"
+       android:layout_height="35dp"
+       android:layout_marginStart="244dp"
+       android:layout_marginTop="4dp"
+       android:text=" "
+       app:layout_constraintStart_toEndOf="@+id/imageView5"
+       app:layout_constraintTop_toTopOf="parent" />
+
+   <TextView
+       android:id="@+id/sunset"
+       android:layout_width="102dp"
+       android:layout_height="35dp"
+       android:layout_marginStart="244dp"
+       android:layout_marginTop="36dp"
+       android:text=" "
+       app:layout_constraintStart_toEndOf="@+id/imageView5"
+       app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
