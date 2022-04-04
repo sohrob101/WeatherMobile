@@ -66,7 +66,6 @@ class MyAdapter(private val data: List<DayForecast>) : RecyclerView.Adapter<MyAd
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(data[position])
-
     }
 
     override fun getItemCount() = data.size
