@@ -14,8 +14,9 @@ interface Api {
 
     @GET("forecast/daily")
     suspend fun getForecast(
-        @Query("zip") zip: String,
-        @Query("cnt") count: String = "16",
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("cnt") count: Int = 16,
         @Query("units") unit: String = "Imperial",
         @Query("appId") appId: String = "b55cf5a5fd3ecf277058fb06bb0ce80b",
     ) : Forecast

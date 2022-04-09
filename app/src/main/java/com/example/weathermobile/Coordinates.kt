@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class WeatherCondition(
-    val main: String,
-    val icon: String,
+data class Coordinates(
+    val lat: Double,
+    val lon: Double,
 ) : Parcelable

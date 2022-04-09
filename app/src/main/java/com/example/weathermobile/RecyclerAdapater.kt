@@ -1,7 +1,6 @@
 package com.example.weathermobile
 
 import android.annotation.SuppressLint
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.w3c.dom.Text
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -60,7 +57,7 @@ class MyAdapter(private val data: List<DayForecast>) : RecyclerView.Adapter<MyAd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_forecast, parent, false)
+            .inflate(R.layout.forecast_fragment, parent, false)
         return ViewHolder(view)
     }
 

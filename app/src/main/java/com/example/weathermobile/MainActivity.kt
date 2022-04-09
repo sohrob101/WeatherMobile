@@ -3,43 +3,40 @@ package com.example.weathermobile
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.weathermobile.databinding.ActivityMainBinding
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.example.weathermobile.databinding.CurrentConditionsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.runBlocking
-import org.w3c.dom.Text
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import kotlinx.android.synthetic.main.current_conditions_fragment.*
 import javax.inject.Inject
+
+
+
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.main_activity)
+    }
 
+/*
 
-    private lateinit var binding: ActivityMainBinding
-    @Inject lateinit var viewModel: MainViewModel
+    private lateinit var binding: CurrentConditionsFragmentBinding
+    @Inject lateinit var viewModel: CurrentConditionsViewModel
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = CurrentConditionsFragmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
         binding.forestBtn.setOnClickListener {
-            val intent = Intent(this, ForecastActivity::class.java)
+            val intent = Intent(this, ForecastFragment::class.java)
             startActivity(intent)
 
         }
@@ -69,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         info.text = getString(R.string.info, currentConditions.main.tempMin.toInt(), currentConditions.main.tempMax.toInt(), currentConditions.main.humidity.toInt(), currentConditions.main.pressure.toInt())
 
     }
+    */
 }
 
 
