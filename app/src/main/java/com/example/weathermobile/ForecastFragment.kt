@@ -1,16 +1,12 @@
 package com.example.weathermobile
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weathermobile.databinding.CurrentConditionsFragmentBinding
 import com.example.weathermobile.databinding.ForecastFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -52,33 +48,6 @@ class ForecastFragment : Fragment(R.layout.forecast_fragment) {
     }
 
 
-
- /*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ForecastFragmentBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.forecast.observe(this){ forecast ->
-            bindData(forecast)
-        }
-        viewModel.loadData()
-    }
-*/
-
-    private fun bindData(forecast: Forecast){
-
-
-        binding.recyclerV.apply {
-            binding.recyclerV.adapter = MyAdapter(forecast.list)
-        }
-
-    }
 
 
 }

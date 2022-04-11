@@ -1,5 +1,6 @@
 package com.example.weathermobile
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,6 +32,16 @@ class SearchViewModel @Inject constructor(
             _events.value = Event.SearchError
         }
     }
+
+    fun locationButtonClicked(lat: Double, lon: Double) = viewModelScope.launch {
+        try{
+            val response = api.getCurrentConditionsFromCoordinates(lat.toString(), lon.toString())
+            _events.value = Event.NavigateToCurrentConditions(response)
+        } catch (ex: Exception) {
+            _events.value = Event.SearchError
+        }
+    }
+
 
     fun updateSearchText(searchText: String) {
         this.searchText = searchText

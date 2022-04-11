@@ -7,7 +7,6 @@
     <string name="info">Low %1$.0f° \nHigh %2$.0f° \nHumidity %3$.0f \nPressure %4$.0f hPa</string>
     <string name="button_text">Forecast</string>
     <string name="title_activity_forecast">ForecastActivity</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
@@ -17,4 +16,5 @@
     <string name="date"> </string>
     <string name="zip_code">ZIP Code</string>
     <string name="search">Search</string>
+    <string name="currentLocation">Use Current Location</string>
 </resources>
