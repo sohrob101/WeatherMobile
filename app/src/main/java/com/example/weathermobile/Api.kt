@@ -20,4 +20,13 @@ interface Api {
         @Query("units") unit: String = "Imperial",
         @Query("appId") appId: String = "b55cf5a5fd3ecf277058fb06bb0ce80b",
     ) : Forecast
+
+    @GET("weather")
+    suspend fun getCurrentConditionsFromCoordinates(
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("units") units: String = "Imperial",
+        @Query("appId") appId: String = "b55cf5a5fd3ecf277058fb06bb0ce80b",
+    ) : CurrentConditions
+
 }

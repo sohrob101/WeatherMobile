@@ -47,7 +47,6 @@ class MyAdapter(private val data: List<DayForecast>) : RecyclerView.Adapter<MyAd
 
 
 
-
             dateView.text = formatter.format(dateTime)
             tempView.text = tempFormat
             sunsetView.text = "Sunset: " + sunFormat.format(sunset)

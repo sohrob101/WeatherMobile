@@ -28,8 +28,3 @@ data class ForecastTemp(
     val max: Float
 ) : Parcelable
 
-//val sunrise: Long,
-//val sunset: Long,
-//val temp: ForecastTemp,
-//val pressure: Float,
-//val humidity: Int

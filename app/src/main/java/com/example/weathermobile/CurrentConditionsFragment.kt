@@ -20,7 +20,6 @@ class CurrentConditionsFragment : Fragment(R.layout.current_conditions_fragment)
     @Inject
     lateinit var viewModel: CurrentConditionsViewModel
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).supportActionBar?.title = "Current Conditions"
@@ -41,8 +40,6 @@ class CurrentConditionsFragment : Fragment(R.layout.current_conditions_fragment)
             bindView(it)
         }
 
-
-
     }
 
 
@@ -51,7 +48,6 @@ class CurrentConditionsFragment : Fragment(R.layout.current_conditions_fragment)
             R.string.current_temp,
             state.currentConditions?.main?.temp
         )
-
         binding.cityName.text = state.currentConditions?.name
         binding.feelsLike.text = context?.getString(
             R.string.feels_like,
