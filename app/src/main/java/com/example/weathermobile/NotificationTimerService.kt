@@ -1,6 +1,8 @@
 package com.example.weathermobile
 
+
 import android.app.Notification
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
@@ -33,14 +35,9 @@ class NotificationTimerService : Service() {
             .setSmallIcon(R.drawable.sun)
             .setContentTitle("WeatherMobile")
             .setContentText(testing)
-            //.setStyle(
-            //  NotificationCompat.BigTextStyle().bigText("HEY LOOK AT ME THIS IS " +
-            //        "SUPPOSED TO BE A LOT OF TEXT LOREM IPSUM"))
-            //.setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setOnlyAlertOnce(true)
             .build()
-
 
     }
 
@@ -48,8 +45,11 @@ class NotificationTimerService : Service() {
 
 
     override fun onDestroy() {
-        timer.cancel()
         super.onDestroy()
+        timer.cancel()
+        timer.purge()
+        val closed = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        closed.cancelAll()
     }
 
     private inner class TimeTask(private var time: Double) : TimerTask()

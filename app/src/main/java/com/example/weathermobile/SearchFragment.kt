@@ -2,7 +2,6 @@ package com.example.weathermobile
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -21,17 +20,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.weathermobile.databinding.SearchFragmentBinding
 import com.example.weathermobile.SearchViewModel.Event.NavigateToCurrentConditions
 import com.google.android.gms.location.*
-import com.squareup.moshi.internal.Util
 import dagger.hilt.android.AndroidEntryPoint
+
 import javax.inject.Inject
-import kotlin.math.roundToInt
+
 
 @AndroidEntryPoint
 class SearchFragment: Fragment(R.layout.search_fragment) {
@@ -39,7 +36,6 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
     @Inject
     lateinit var viewModel: SearchViewModel
 
-    private val notificationId = 101
 
 
     private lateinit var binding: SearchFragmentBinding
@@ -49,7 +45,9 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
     private lateinit var serviceIntent: Intent
     private var time = 0.0
     private lateinit var lastLocation: String
-    private lateinit var coordinates: Coordinates
+    private lateinit var weatherData: CurrentConditions
+    private var permissionGranted = false
+    private var buttonState = true //true = turn on notification, false = turn off notification
 
 
 
@@ -83,19 +81,32 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
         serviceIntent = Intent(activity?.applicationContext, NotificationTimerService::class.java)
 
         binding.notification.setOnClickListener {
-            if(binding.notification.text == "Turn on notifications"){
+            if(buttonState && permissionGranted){
+                Log.d("button was clicked", "This is the initial button click")
                 binding.notification.setText("Turn off notifications")
+                buttonState = false
                 resetTimer()
                 startStopTimer()
                 testRemoval()
                 activity?.startForegroundService(serviceIntent)
             }
+            else if(!permissionGranted){
+                context?.let {
+                    AlertDialog.Builder(it)
+                        .setTitle("Notice")
+                        .setTitle("You need to enable current Locations")
+                        .setNeutralButton("Ok") { _, _ ->
+                        }
+                        .show()
+                }
+            }
             else{
                 binding.notification.setText("Turn on notifications")
+                buttonState = true
                 startStopTimer()
                 resetTimer()
-
             }
+
 
         }
 
@@ -132,7 +143,9 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
             }
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { bindView(it) }
+        viewModel.state.observe(viewLifecycleOwner) {
+            bindView(it)
+        }
     } //End of onViewCreated Function
 
 
@@ -141,10 +154,10 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
         override fun onReceive(context: Context, intent: Intent)
         {
             time = intent.getDoubleExtra(NotificationTimerService.TIME_EXTRA, 0.0)
-            //if the timer hits 1:00; then the sendNotification() function will run again.
-            if(time >= 30.0){
+            var integerTime = time.toInt()
+            if(integerTime %(30*60) == 0){
                 requestLocationUpdates()
-                resetNotificationTimer()
+                //Log.d("test", time.toString()) //You can use this to see that the timer is updating correctly.
                 startTimer()
             }
 
@@ -176,12 +189,13 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
 
     private fun startTimer() {
         serviceIntent.putExtra(NotificationTimerService.TIME_EXTRA, time)
-        //getActivity()?.startService(serviceIntent)
         timeStarted = true
     }
 
     private fun testRemoval(){
-        serviceIntent.putExtra("test", lastLocation)
+        var tempFormat = weatherData.main.temp
+        var nameFormat = weatherData.name
+        serviceIntent.putExtra("test", String.format("Temperature at %s is %.0f°F", nameFormat, tempFormat))
         Log.d("debug","debug")
     }
 
@@ -191,24 +205,11 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
 
     }
 
-    private fun resetNotificationTimer()
-    {
-        stopNotificationTimer()
-        time = 0.0
-    }
-
-    private fun stopNotificationTimer() {
-        //getActivity()?.stopService(serviceIntent)
-        timeStarted = false
-
-    }
 
 
     private val CHANNEL_ID = "0"
 
     private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Notification"
             val descriptionText = "THis is a notification"
@@ -225,43 +226,6 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
             notificationManager.createNotificationChannel(channel)
         }
     }
-
-
-
-
-/*
-    private fun sendNotification() {
-        val builder = context?.let {
-            NotificationCompat.Builder(it, CHANNEL_ID)
-                .setSmallIcon(R.drawable.sun)
-                .setContentTitle("Enable Notifications?")
-                .setContentText("Would you like to enable notifications?")
-                //.setStyle(
-                //  NotificationCompat.BigTextStyle().bigText("HEY LOOK AT ME THIS IS " +
-                //        "SUPPOSED TO BE A LOT OF TEXT LOREM IPSUM"))
-                //.setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        }
-
-        if (builder != null) {
-            with(activity?.let { NotificationManagerCompat.from(it) }){
-                this?.notify(notificationId, builder.build())
-            }
-        }
-
-        /*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            activity?.startForegroundService(serviceIntent)
-        }
-
-         */
-
-    }
-
- */
-
-
 
 
 
@@ -308,9 +272,9 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
         locationProvider = activity?.let { LocationServices.getFusedLocationProviderClient(it) }!!
         locationProvider.lastLocation
             .addOnSuccessListener {
+                Log.d("here","We have entered the .addOnSuccessListener")
                 requestNewLocation()
             }
-        lastLocation = locationProvider.lastLocation.toString()
     }
 
 
@@ -324,6 +288,8 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.locations.forEach {
                     viewModel.locationButtonClicked(it.latitude, it.longitude)
+                    lastLocation = viewModel.notificationClicked(it.latitude, it.longitude).toString()
+                    permissionGranted = true
                 }
             }
         }
@@ -361,6 +327,12 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
 
     private fun bindView(state: SearchViewModel.State) {
         binding.searchButton.isEnabled = state.searchButtonEnabled
+
+        if (state.currentConditions != null){
+            weatherData = state.currentConditions
+        }
+
+
     }
 
     private fun handleSearchError() {
