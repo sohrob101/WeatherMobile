@@ -46,6 +46,14 @@ class ForecastFragment : Fragment(R.layout.forecast_fragment) {
     private fun bindView(state: ForecastViewModel.State){
         binding.recyclerV.adapter = state.forecast?.list?.let {MyAdapter(it) }
     }
+/*
+    private fun navigateToForecast(coordinates: Coordinates){
+        //val action = CurrentConditionsFragmentDirections.actionCurrentConditionsFragmentToForecastFragment(coordinates)
+        //findNavController().navigate(action)
+    }
+
+ */
+
 
 
 

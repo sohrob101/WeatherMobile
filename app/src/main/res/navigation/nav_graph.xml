@@ -40,7 +40,22 @@
         <argument
             android:name="coordinates"
             app:argType="com.example.weathermobile.Coordinates" />
+        <action
+            android:id="@+id/action_forecastFragment_to_forecastDetailsFragment"
+            app:destination="@+id/forecastDetailsFragment"
+            />
     </fragment>
+
+    <fragment
+        android:id="@+id/forecastDetailsFragment"
+        android:name="com.example.weathermobile.ForecastDetailsFragment"
+        android:label="ForecastDetailsFragment">
+        <argument
+            android:name="coordinates"
+            app:argType="com.example.weathermobile.Coordinates" />
+    </fragment>
+
+
 
 
 
