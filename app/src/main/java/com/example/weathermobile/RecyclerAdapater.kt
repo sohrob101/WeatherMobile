@@ -16,8 +16,19 @@ import java.time.format.DateTimeFormatter
 
 class MyAdapter(private val data: List<DayForecast>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
+    private lateinit var mListener : OnItemClickListener
+
+    interface OnItemClickListener{
+        fun onItemClick(position : Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        mListener = listener
+
+    }
+
     @SuppressLint("NewApi")
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(view){
         private val stringHolding = "Temp: %.0f°F \n High: %.0f°F   Low: %.0f°F"
         private val sunFormat = DateTimeFormatter.ofPattern("h:mma")
         private val formatter = DateTimeFormatter.ofPattern("MMM dd")
@@ -27,6 +38,12 @@ class MyAdapter(private val data: List<DayForecast>) : RecyclerView.Adapter<MyAd
         private val sunriseView: TextView = view.findViewById(R.id.sunrise)
         private val iconView: ImageView = view.findViewById(R.id.imageView5)
         private val recyclerView: RecyclerView = view.findViewById(R.id.recyclerV)
+
+        init {
+            itemView.setOnClickListener {
+                listener.onItemClick(absoluteAdapterPosition)
+            }
+        }
 
 
         @SuppressLint("SetTextI18n")
@@ -57,7 +74,7 @@ class MyAdapter(private val data: List<DayForecast>) : RecyclerView.Adapter<MyAd
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.forecast_fragment, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, mListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

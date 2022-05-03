@@ -19,6 +19,7 @@ class ForecastFragment : Fragment(R.layout.forecast_fragment) {
 
     private lateinit var binding: ForecastFragmentBinding
 
+
     @Inject
     lateinit var viewModel: ForecastViewModel
     private val args: ForecastFragmentArgs by navArgs()
@@ -44,8 +45,23 @@ class ForecastFragment : Fragment(R.layout.forecast_fragment) {
     }
 
     private fun bindView(state: ForecastViewModel.State){
-        binding.recyclerV.adapter = state.forecast?.list?.let {MyAdapter(it) }
+        val adapter = state.forecast?.list?.let {MyAdapter(it) }
+        binding.recyclerV.adapter = adapter
+        adapter?.setOnItemClickListener(object : MyAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                val someVariableName = state.forecast.list[position]
+                val action = ForecastFragmentDirections.actionForecastFragmentToForecastDetailsFragment(someVariableName)
+                findNavController().navigate(action)
+
+            }
+
+        })
     }
+
+
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.weathermobile
 
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,13 +17,19 @@ class SearchViewModel @Inject constructor(
     private val _events = MutableLiveData<Event>()
     val events: LiveData<Event> = _events
 
+
+
+
     private val _state = MutableLiveData(State.DEFAULT)
     val state: LiveData<State> = _state
 
     fun onViewCreated() {
         _events.value = Event.ViewCreated
         _state.value = State.DEFAULT
+
     }
+
+
 
     fun searchButtonClicked() = viewModelScope.launch {
         try {
@@ -42,6 +49,15 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+     fun notificationClicked(lat: Double, lon: Double) = viewModelScope.launch {
+            val response = api.getCurrentConditionsFromCoordinates( ///******
+                lat.toString(),
+                lon.toString()
+            )
+         _state.value = _state.value?.copy(currentConditions = response) //******
+    }
+
+
 
     fun updateSearchText(searchText: String) {
         this.searchText = searchText
@@ -57,11 +73,13 @@ class SearchViewModel @Inject constructor(
     }
 
     data class State(
-        val searchButtonEnabled: Boolean
+        val searchButtonEnabled: Boolean,
+        val currentConditions: CurrentConditions? //*******
     ) {
         companion object {
             val DEFAULT: State = State(
-                searchButtonEnabled = false
+                searchButtonEnabled = false,
+                currentConditions = null
             )
         }
     }
