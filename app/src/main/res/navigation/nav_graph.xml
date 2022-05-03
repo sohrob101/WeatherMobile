@@ -51,8 +51,8 @@
         android:name="com.example.weathermobile.ForecastDetailsFragment"
         android:label="ForecastDetailsFragment">
         <argument
-            android:name="coordinates"
-            app:argType="com.example.weathermobile.Coordinates" />
+            android:name="dayForecast"
+            app:argType="com.example.weathermobile.DayForecast" />
     </fragment>
 
 

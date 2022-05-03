@@ -1,28 +1,49 @@
 package com.example.weathermobile
 
+import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import coil.compose.AsyncImage
 
 
 class ForecastDetailsFragment : Fragment() {
+
+
+    private val args: ForecastDetailsFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val view = ComposeView(requireContext())
         view.apply{
             setContent{
-                Text("Hey look a composable")
-                MessageCard("Testing")
+                Column() {
+                    AsyncImage(model = "https://openweathermap.org/img/wn/${args.dayForecast.weather[0].icon}@2x.png", contentDescription = null)
+                    MessageCard(String.format("Day Temperature: %.0f°",args.dayForecast.temp.day))
+                    MessageCard(String.format("Minimum Temperature: %.0f°",args.dayForecast.temp.min))
+                    MessageCard(String.format("Maximum Temperature: %.0f°",args.dayForecast.temp.max))
+                    MessageCard(String.format("Humidity: %d",args.dayForecast.humidity))
+                    MessageCard(String.format("Pressure: %.0f",args.dayForecast.pressure))
+                    MessageCard(String.format("Wind Speed: %.0f",args.dayForecast.speed))
+                    MessageCard(String.format("Weather Description: %s",args.dayForecast.weather[0].description))
+
+                }
+
+
             }
         }
         return view
@@ -31,12 +52,22 @@ class ForecastDetailsFragment : Fragment() {
 
     @Composable
     fun MessageCard(name: String) {
-        Text(text = "Hello $name!")
+        Text(text = name)
     }
+
+
 
     @Preview(showSystemUi = true, showBackground = true)
     @Composable
     fun PreviewMessage(){
-        MessageCard("Testing")
+        Column() {
+            MessageCard(String.format("Day Temperature:  %.0f°",50.50f))
+            MessageCard(String.format("Min Temp: %.0f°",50.32f))
+        }
+
+
+
     }
+
+
 }
