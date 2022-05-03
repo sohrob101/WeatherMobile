@@ -60,13 +60,7 @@ class ForecastFragment : Fragment(R.layout.forecast_fragment) {
 
 
 
-/*
-    private fun navigateToForecast(coordinates: Coordinates){
-        //val action = CurrentConditionsFragmentDirections.actionCurrentConditionsFragmentToForecastFragment(coordinates)
-        //findNavController().navigate(action)
-    }
 
- */
 
 
 

@@ -1,16 +1,18 @@
 package com.example.weathermobile
 
-import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+//import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.compose.AsyncImage
@@ -28,11 +30,12 @@ class ForecastDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        (requireActivity() as MainActivity).supportActionBar?.title = "Forecast Details"
         val view = ComposeView(requireContext())
         view.apply{
             setContent{
                 Column() {
-                    AsyncImage(model = "https://openweathermap.org/img/wn/${args.dayForecast.weather[0].icon}@2x.png", contentDescription = null)
+                    AsyncImage(model = "https://openweathermap.org/img/wn/${args.dayForecast.weather[0].icon}@2x.png", contentDescription = null, modifier = Modifier.size(88.dp))
                     MessageCard(String.format("Day Temperature: %.0f°",args.dayForecast.temp.day))
                     MessageCard(String.format("Minimum Temperature: %.0f°",args.dayForecast.temp.min))
                     MessageCard(String.format("Maximum Temperature: %.0f°",args.dayForecast.temp.max))
@@ -52,11 +55,11 @@ class ForecastDetailsFragment : Fragment() {
 
     @Composable
     fun MessageCard(name: String) {
-        Text(text = name)
+        Text(text = name, fontSize = 30.sp)
     }
 
 
-
+/*
     @Preview(showSystemUi = true, showBackground = true)
     @Composable
     fun PreviewMessage(){
@@ -65,9 +68,8 @@ class ForecastDetailsFragment : Fragment() {
             MessageCard(String.format("Min Temp: %.0f°",50.32f))
         }
 
-
-
     }
+ */
 
 
 }
